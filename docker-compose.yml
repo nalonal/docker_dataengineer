@@ -63,3 +63,26 @@ services:
     restart: unless-stopped
     ports:
       - "10005:8081"
+  postgres:
+    image: postgres
+    hostname: postgres
+    ports:
+      - "6543:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: TEST_SM
+    volumes:
+      - ./database/postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - "10006:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: data@engineer.org
+      PGADMIN_DEFAULT_PASSWORD: rahasia
+    restart: unless-stopped
